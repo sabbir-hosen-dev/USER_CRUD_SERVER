@@ -36,14 +36,14 @@ async function run() {
       res.send(result)
     })
 
-    app.post("/addUser", async (req,res) => {
+    app.post("/users", async (req,res) => {
       const user = req.body
       
       const result = await userCollection.insertOne(user);
       res.send(result)
     })
 
-    app.delete("/user/:id", async (req,res) => {
+    app.delete("/users/:id", async (req,res) => {
       const id = req.params.id
 
       const query = {_id : new ObjectId(id)}
@@ -52,6 +52,18 @@ async function run() {
 
       res.send(result)
 
+    })
+
+    app.put("/users/:id", async ( req,res) => {
+      const user = req.body;
+      const id = req.params.id; 
+
+      const filter = {_id : new ObjectId(id)};
+      const update = {$set: user}
+
+      const result = await userCollection.updateOne(filter,update)
+      
+      res.send(result)
     })
 
     // Send a ping to confirm a successful connection
